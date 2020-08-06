@@ -4,8 +4,6 @@ import os
 from urllib.parse import urlparse
 import subprocess
 
-tempdir = "/tmp/lsdump"
-
 m3u8_url = sys.argv[1]
 output = sys.argv[2]
 
