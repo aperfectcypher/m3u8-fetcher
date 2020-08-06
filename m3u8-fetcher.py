@@ -1,8 +1,8 @@
+import os
+import subprocess
 import sys
 import tempfile
-import os
 from urllib.parse import urlparse
-import subprocess
 
 m3u8_url = sys.argv[1]
 output = sys.argv[2]
@@ -26,7 +26,8 @@ with tempfile.TemporaryDirectory() as tmpdirname:
             print("Downloading: " + ts_name)
             try:
                 print("wget " + base_url + ts_name + " -O " + tmpdirname + "/" + ts_name)
-                retcode = subprocess.call("wget " + base_url + ts_name + " -O " + tmpdirname + "/" + ts_name, shell=True)
+                retcode = subprocess.call("wget " + base_url + ts_name + " -O " + tmpdirname + "/" + ts_name,
+                                          shell=True)
                 print("wget of " + ts_name + " returned", retcode, file=sys.stderr)
                 f_mp4_playlist.write("file " + tmpdirname + "/" + ts_name + "\n")
                 f_mp4_playlist.flush()
@@ -36,7 +37,8 @@ with tempfile.TemporaryDirectory() as tmpdirname:
 
     f_mp4_playlist.close()
     try:
-        retcode = subprocess.call("ffmpeg -f concat -safe 0 -i " + tmpdirname + "/" + "mp4_playlist.txt" + " -c copy ./" + output, shell=True)
+        retcode = subprocess.call(
+            "ffmpeg -f concat -safe 0 -i " + tmpdirname + "/" + "mp4_playlist.txt" + " -c copy ./" + output, shell=True)
         print("ffmpeg " + " returned", retcode, file=sys.stderr)
     except OSError as e:
         print("Execution failed:", e, file=sys.stderr)
